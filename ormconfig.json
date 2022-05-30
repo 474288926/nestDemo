@@ -1,0 +1,14 @@
+{
+  "type": "mysql",
+  "host": "124.223.160.191",
+  "port": 3306,
+  "username": "admin",
+  "password": "123456",
+  "database": "mytest",
+  "entities": ["dist/**/**/*.entity{.ts,.js}"],
+  "synchronize": true,
+  "migrations": ["dist/migrations/*.js"],
+  "cli": {
+    "migrationsDir": "src/migrations"
+  }
+}
