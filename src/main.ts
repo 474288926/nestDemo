@@ -26,9 +26,8 @@ async function bootstrap() {
     .setTitle('nestjs-api-文档') //文档标题
     .setDescription('nestjs-api-说明') //文档描述
     .setVersion('1.0') //文档版本
-    .addBasicAuth() //鉴权，可以输入token
+    .addBearerAuth()
     .build(); //创建
-
   //创建swagger
   const document = SwaggerModule.createDocument(app, swaggerOptions);
   //启动swagger

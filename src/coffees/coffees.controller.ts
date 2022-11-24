@@ -15,6 +15,7 @@ import {
   ApiBody,
   ApiResponse,
   ApiQuery,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { Public } from 'src/common/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
@@ -23,6 +24,7 @@ import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 
 @Controller('coffees')
+@ApiBearerAuth()
 @ApiTags('coffee')
 export class CoffeesController {
   constructor(private readonly coffeesService: CoffeesService) {}
@@ -36,6 +38,7 @@ export class CoffeesController {
     // const { limit, offset } = paginationQuery;
     return this.coffeesService.findAll(paginationQuery);
   }
+
   @Get(':id')
   @ApiOperation({ summary: '根据id查找', description: '根据id查找咖啡' })
   findOne(@Param('id') id: number) {
