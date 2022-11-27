@@ -1,12 +1,21 @@
+import 'dotenv/config';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { AppModule, IS_DEV } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { WrapResponseInterceptor } from './common/interceptors/wrap-response.interceptor';
+import { Logger } from '@nestjs/common';
+
+const PORT = process.env.PORT || 8080;
+const PREFIX = process.env.PREFIX || '/';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const logger: Logger = new Logger('main.ts');
+  const app = await NestFactory.create(AppModule, {
+    // 开启日志级别打印
+    logger: IS_DEV ? ['log', 'debug', 'error', 'warn'] : ['error', 'warn'],
+  });
   app.setGlobalPrefix('api');
   app.useGlobalPipes(
     //管道 --- 验证
@@ -31,7 +40,12 @@ async function bootstrap() {
   //创建swagger
   const document = SwaggerModule.createDocument(app, swaggerOptions);
   //启动swagger
-  SwaggerModule.setup('doc', app, document); //访问路径为 localhost:3000/doc
-  await app.listen(3000);
+  SwaggerModule.setup(PREFIX, app, document); //swagger3访问路径为
+  // await app.listen(3000);
+  await app.listen(PORT, () => {
+    logger.log(
+      `服务已经启动,接口请访问:http://wwww.localhost:${PORT}/${PREFIX}`,
+    );
+  });
 }
 bootstrap();

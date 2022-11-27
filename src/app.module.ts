@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -10,6 +10,14 @@ import { CommonModule } from './common/common.module';
 import * as Joi from '@hapi/joi';
 import appConfig from './config/app.config';
 
+const envFilePath = ['.env'];
+export const IS_DEV = process.env.RUNNING_ENV !== 'prod';
+
+if (IS_DEV) {
+  envFilePath.unshift('.env.dev');
+} else {
+  envFilePath.unshift('.env.prod');
+}
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
@@ -26,7 +34,7 @@ import appConfig from './config/app.config';
     }),
     ConfigModule.forRoot({
       load: [appConfig],
-      envFilePath: '.env',
+      envFilePath,
       validationSchema: Joi.object({
         DATABASE_HOST: Joi.required(),
         DATABASE_PORT: Joi.number().default(3306),
@@ -39,6 +47,6 @@ import appConfig from './config/app.config';
     CommonModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, Logger],
 })
 export class AppModule {}
