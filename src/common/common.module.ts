@@ -6,6 +6,6 @@ import { ApiKeyGuard } from './guards/api-key.guard';
 
 @Module({
   imports: [ConfigModule],
-  providers: [{ provide: APP_GUARD, useClass: ApiKeyGuard }],
+  providers: [{ provide: APP_GUARD, useClass: JwtAuthGuard }],
 })
 export class CommonModule {}
