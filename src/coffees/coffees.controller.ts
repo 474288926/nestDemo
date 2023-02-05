@@ -35,7 +35,6 @@ export class CoffeesController {
   @ApiQuery({ name: 'limit', type: Number })
   @ApiQuery({ name: 'offset', type: Number })
   findAll(@Query() paginationQuery: PaginationQueryDto) {
-    // const { limit, offset } = paginationQuery;
     return this.coffeesService.findAll(paginationQuery);
   }
 

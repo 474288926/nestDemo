@@ -20,10 +20,11 @@ export class AuthService {
     const token = this.createToken({
       id: user.id,
       username: user.username,
-      role: user.role,
+      roles: user.roles,
     });
+    const userInfo = await this.getUser(user);
 
-    return { token };
+    return { ...userInfo, token };
   }
 
   async getUser(user) {

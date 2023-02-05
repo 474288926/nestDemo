@@ -1,7 +1,14 @@
 // use/entities/user.entity.ts
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  Column,
+  Entity,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { hashSync } from 'bcryptjs';
 import { Exclude } from 'class-transformer';
+import { Role } from 'src/role/entities/role.entity';
 
 @Entity('user')
 export class User {
@@ -24,8 +31,8 @@ export class User {
   @Column()
   email: string;
 
-  @Column('simple-enum', { enum: ['root', 'author', 'visitor'] })
-  role: string; // 用户角色
+  // @Column('simple-enum', { enum: ['root', 'author', 'visitor'] })
+  // role: string; // 用户角色
 
   @Column({
     name: 'create_time',
@@ -45,4 +52,7 @@ export class User {
   encryptPwd() {
     this.password = hashSync(this.password, 10);
   }
+
+  @ManyToMany((type) => Role, (role) => role.users)
+  roles: Role[];
 }
