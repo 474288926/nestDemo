@@ -50,7 +50,7 @@ export class RouteController {
   }
 
   @Patch(':id')
-  @ApiOperation({ summary: '更新用户' })
+  @ApiOperation({ summary: '更新路由' })
   @ApiBody({ type: UpdateRouteDto, description: '参数可选' }) //请求体
   @ApiResponse({
     //响应示例
@@ -63,7 +63,7 @@ export class RouteController {
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: '删除用户' })
+  @ApiOperation({ summary: '删除路由' })
   remove(@Param('id') id: number) {
     return this.routeService.remove(id);
   }
