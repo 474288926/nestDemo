@@ -21,6 +21,7 @@ import {
 } from '@nestjs/swagger';
 import { Public } from 'src/common/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { UpdatePurviewDto } from './dto/update-purview.dto';
 
 @ApiTags('role')
 @ApiBearerAuth()
