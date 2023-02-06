@@ -1,7 +1,5 @@
 import { Logger, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { CoffeesModule } from './coffees/coffees.module';
 import { CoffeeRatingModule } from './coffee-rating/coffee-rating.module';
 import { DatabaseModule } from './database/database.module';
@@ -53,7 +51,7 @@ if (IS_DEV) {
     RoleModule,
     RouteModule,
   ],
-  controllers: [AppController],
-  providers: [AppService, Logger],
+  controllers: [],
+  providers: [Logger],
 })
 export class AppModule {}
