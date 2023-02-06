@@ -17,7 +17,6 @@ export class Coffee {
   brand: string;
   @Column({ default: 0 })
   recommendations: number;
-  // @Column('json', { nullable: true })
   @JoinTable()
   @ManyToMany(() => Flavor, (flavor) => flavor.coffees, { cascade: true })
   flavors: Flavor[];

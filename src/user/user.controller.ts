@@ -19,6 +19,7 @@ import {
   ApiOperation,
   ApiResponse,
   ApiTags,
+  ApiHideProperty,
 } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
 import { Public } from 'src/common/decorators/public.decorator';
@@ -38,14 +39,14 @@ export class UserController {
   register(@Body() createUser: CreateUserDto) {
     return this.userService.register(createUser);
   }
-  @Public()
-  @ApiOperation({ summary: '获取用户信息' })
-  @ApiBearerAuth() // swagger文档设置token
-  @UseGuards(AuthGuard('jwt'))
-  @Get()
-  getUserInfo(@Req() req) {
-    return req.user;
-  }
+
+  // @ApiOperation({ summary: '获取用户信息' })
+  // @ApiBearerAuth() // swagger文档设置token
+  // @UseGuards(AuthGuard('jwt'))
+  // @Get()
+  // getUserInfo(@Req() req) {
+  //   return req.user;
+  // }
 
   // @Get()
   // findAll() {

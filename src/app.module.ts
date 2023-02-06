@@ -9,6 +9,8 @@ import { ConfigModule } from '@nestjs/config';
 import { CommonModule } from './common/common.module';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { RoleModule } from './role/role.module';
+import { RouteModule } from './route/route.module';
 import * as Joi from '@hapi/joi';
 import appConfig from './config/app.config';
 
@@ -48,6 +50,8 @@ if (IS_DEV) {
     CommonModule,
     UserModule,
     AuthModule,
+    RoleModule,
+    RouteModule,
   ],
   controllers: [AppController],
   providers: [AppService, Logger],
