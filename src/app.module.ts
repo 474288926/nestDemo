@@ -9,6 +9,7 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { RoleModule } from './role/role.module';
 import { RouteModule } from './route/route.module';
+import { CaslModule } from './casl/casl.module';
 import * as Joi from '@hapi/joi';
 import appConfig from './config/app.config';
 
@@ -50,6 +51,7 @@ if (IS_DEV) {
     AuthModule,
     RoleModule,
     RouteModule,
+    CaslModule,
   ],
   controllers: [],
   providers: [Logger],

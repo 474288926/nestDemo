@@ -1,4 +1,4 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsArray, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateUserDto {
@@ -16,10 +16,10 @@ export class CreateUserDto {
   @IsString()
   @IsOptional()
   readonly avatar: string;
-  @ApiProperty({ example: 'root', description: '用户权限' })
-  @IsString()
+  @ApiProperty({ example: [], description: '用户权限' })
+  @IsArray()
   @IsOptional()
-  readonly role: string;
+  readonly roles: any[];
   @ApiProperty({ example: '', description: '用户邮箱' })
   @IsString()
   @IsOptional()

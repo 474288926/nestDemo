@@ -1,6 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
@@ -23,7 +21,6 @@ export class AuthService {
       roles: user.roles,
     });
     const userInfo = await this.getUser(user);
-
     return { ...userInfo, token };
   }
 

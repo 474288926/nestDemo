@@ -3,6 +3,7 @@ import {
   BeforeInsert,
   Column,
   Entity,
+  JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -13,7 +14,7 @@ import { Role } from 'src/role/entities/role.entity';
 @Entity('user')
 export class User {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @Column({ length: 100 })
   username: string; // 用户名
@@ -47,12 +48,11 @@ export class User {
     default: () => 'CURRENT_TIMESTAMP',
   })
   updateTime: Date;
-
   @BeforeInsert()
   encryptPwd() {
     this.password = hashSync(this.password, 10);
   }
-
+  @JoinTable()
   @ManyToMany((type) => Role, (role) => role.users)
   roles: Role[];
 }

@@ -10,6 +10,7 @@ import {
   ClassSerializerInterceptor,
   UseGuards,
   Req,
+  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -20,10 +21,13 @@ import {
   ApiResponse,
   ApiTags,
   ApiHideProperty,
+  ApiQuery,
+  ApiBody,
 } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
 import { Public } from 'src/common/decorators/public.decorator';
 import { AuthGuard } from '@nestjs/passport';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 
 @ApiTags('user')
 @ApiBearerAuth()
@@ -40,31 +44,36 @@ export class UserController {
     return this.userService.register(createUser);
   }
 
-  // @ApiOperation({ summary: '获取用户信息' })
-  // @ApiBearerAuth() // swagger文档设置token
-  // @UseGuards(AuthGuard('jwt'))
-  // @Get()
-  // getUserInfo(@Req() req) {
-  //   return req.user;
-  // }
+  @Public()
+  @Get()
+  @ApiOperation({ summary: '查找全部用户', description: '用户的查找全部' })
+  @ApiQuery({ name: 'limit', type: Number })
+  @ApiQuery({ name: 'offset', type: Number })
+  findAll(@Query() paginationQuery: PaginationQueryDto) {
+    return this.userService.findAll(paginationQuery);
+  }
 
-  // @Get()
-  // findAll() {
-  //   return this.userService.findAll();
-  // }
+  @Get(':id')
+  @ApiOperation({ summary: '根据id查找用户', description: '根据id查找用户' })
+  findOne(@Param('id') id: string) {
+    return this.userService.findOne(id, false);
+  }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.userService.findOne(+id);
-  // }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-  //   return this.userService.update(+id, updateUserDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.userService.remove(+id);
-  // }
+  @Patch(':id')
+  @ApiOperation({ summary: '更新用户' })
+  @ApiBody({ type: UpdateUserDto, description: '参数可选' }) //请求体
+  @ApiResponse({
+    //响应示例
+    status: 200,
+    description: '成功返回200，失败返回400',
+    type: UpdateUserDto,
+  })
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.update(id, updateUserDto);
+  }
+  @Delete(':id')
+  @ApiOperation({ summary: '删除用户' })
+  remove(@Param('id') id: string) {
+    return this.userService.remove(id);
+  }
 }
