@@ -40,7 +40,9 @@ async function bootstrap() {
   //创建swagger
   const document = SwaggerModule.createDocument(app, swaggerOptions);
   //启动swagger
-  SwaggerModule.setup(PREFIX, app, document); //swagger3访问路径为
+  SwaggerModule.setup(PREFIX, app, document, {
+    swaggerOptions: { persistAuthorization: true },
+  }); //swagger3访问路径为
   // await app.listen(3000);
   await app.listen(PORT, () => {
     logger.log(
