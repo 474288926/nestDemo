@@ -8,7 +8,6 @@ import {
   Delete,
   UseInterceptors,
   ClassSerializerInterceptor,
-  UseGuards,
   Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
@@ -25,11 +24,9 @@ import {
 import { User } from './entities/user.entity';
 import { Public } from 'src/common/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
-import { PoliciesGuard } from 'src/casl/policies.guard';
 import { CheckPolicies } from 'src/common/decorators/policies.decorator';
 import {
   DeleteUserPolicyHandler,
-  ReadUserPolicyHandler,
   UpdateUserPolicyHandler,
 } from './config/user.config';
 

@@ -9,7 +9,6 @@ import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { Route } from 'src/route/entities/route.entity';
 import { Repository } from 'typeorm';
 import { CreateRoleDto } from './dto/create-role.dto';
-import { UpdatePurviewDto } from './dto/update-purview.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
 import { Role } from './entities/role.entity';
 
