@@ -59,7 +59,7 @@ export class CaslAbilityFactory {
             : nextPath.method === 'patch'
             ? Action.Update
             : Action.Delete,
-          Coffee,
+          'all',
         );
       }
     }
