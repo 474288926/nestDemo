@@ -9,7 +9,6 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
   UseGuards,
-  Req,
   Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
@@ -20,14 +19,19 @@ import {
   ApiOperation,
   ApiResponse,
   ApiTags,
-  ApiHideProperty,
   ApiQuery,
   ApiBody,
 } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
 import { Public } from 'src/common/decorators/public.decorator';
-import { AuthGuard } from '@nestjs/passport';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { PoliciesGuard } from 'src/casl/policies.guard';
+import { CheckPolicies } from 'src/common/decorators/policies.decorator';
+import {
+  DeleteUserPolicyHandler,
+  ReadUserPolicyHandler,
+  UpdateUserPolicyHandler,
+} from './config/user.config';
 
 @ApiTags('user')
 @ApiBearerAuth()
@@ -59,6 +63,7 @@ export class UserController {
     return this.userService.findOne(id, false);
   }
 
+  @CheckPolicies(new UpdateUserPolicyHandler())
   @Patch(':id')
   @ApiOperation({ summary: '更新用户' })
   @ApiBody({ type: UpdateUserDto, description: '参数可选' }) //请求体
@@ -71,6 +76,8 @@ export class UserController {
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(id, updateUserDto);
   }
+
+  @CheckPolicies(new DeleteUserPolicyHandler())
   @Delete(':id')
   @ApiOperation({ summary: '删除用户' })
   remove(@Param('id') id: string) {

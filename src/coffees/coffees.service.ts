@@ -8,7 +8,7 @@ import { Coffee } from './entities/coffee.entity';
 import { Flavor } from './entities/flavor.entity';
 import { Event } from 'src/events/entities/event.entity';
 import { COFFEE_BRANDS } from './entities/coffees.constants';
-import { ConfigService, ConfigType } from '@nestjs/config';
+import { ConfigType } from '@nestjs/config';
 import coffeesConfig from './config/coffees.config';
 
 @Injectable()
@@ -63,7 +63,7 @@ export class CoffeesService {
     });
     return this.coffeeRepository.save(coffee);
   }
-  async update(id: string, updateCoffeeDto: UpdateCoffeeDto) {
+  async update(id: number, updateCoffeeDto: UpdateCoffeeDto) {
     const flavors =
       updateCoffeeDto.flavors &&
       (await Promise.all(

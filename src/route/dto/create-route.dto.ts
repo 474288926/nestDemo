@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
 
 export class CreateRouteDto {
-  @ApiProperty({ example: '', description: '路由名' })
+  @ApiProperty({ example: '', description: '实体名' })
   @IsString()
   readonly name: string;
   @ApiProperty({ example: '', description: '路由地址' })

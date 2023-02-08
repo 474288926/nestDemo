@@ -21,6 +21,13 @@ import {
 } from '@nestjs/swagger';
 import { Public } from 'src/common/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { CheckPolicies } from 'src/common/decorators/policies.decorator';
+import {
+  CreateRoutePolicyHandler,
+  DeleteRoutePolicyHandler,
+  ReadRoutePolicyHandler,
+  UpdateRoutePolicyHandler,
+} from './config/route.config';
 
 @Controller('route')
 @ApiBearerAuth()
@@ -28,6 +35,7 @@ import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 export class RouteController {
   constructor(private readonly routeService: RouteService) {}
 
+  @CheckPolicies(new CreateRoutePolicyHandler())
   @Post()
   @ApiOperation({ summary: '创建一个路由', description: '创建一个路由' })
   create(@Body() createRouteDto: CreateRouteDto) {
@@ -43,12 +51,14 @@ export class RouteController {
     return this.routeService.findAll(paginationQuery);
   }
 
+  @CheckPolicies(new ReadRoutePolicyHandler())
   @Get(':id')
   @ApiOperation({ summary: '根据id查找路由', description: '根据id查找路由' })
   findOne(@Param('id') id: number) {
     return this.routeService.findOne(id);
   }
 
+  @CheckPolicies(new UpdateRoutePolicyHandler())
   @Patch(':id')
   @ApiOperation({ summary: '更新路由' })
   @ApiBody({ type: UpdateRouteDto, description: '参数可选' }) //请求体
@@ -62,6 +72,7 @@ export class RouteController {
     return this.routeService.update(id, updateRouteDto);
   }
 
+  @CheckPolicies(new DeleteRoutePolicyHandler())
   @Delete(':id')
   @ApiOperation({ summary: '删除路由' })
   remove(@Param('id') id: number) {

@@ -21,7 +21,13 @@ import {
 } from '@nestjs/swagger';
 import { Public } from 'src/common/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
-import { UpdatePurviewDto } from './dto/update-purview.dto';
+import {
+  CreateRolePolicyHandler,
+  DeleteRolePolicyHandler,
+  ReadRolePolicyHandler,
+  UpdateRolePolicyHandler,
+} from './config/role.config';
+import { CheckPolicies } from 'src/common/decorators/policies.decorator';
 
 @ApiTags('role')
 @ApiBearerAuth()
@@ -29,6 +35,7 @@ import { UpdatePurviewDto } from './dto/update-purview.dto';
 export class RoleController {
   constructor(private readonly roleService: RoleService) {}
 
+  @CheckPolicies(new CreateRolePolicyHandler())
   @Post()
   @ApiOperation({ summary: '创建角色', description: '创建一个角色' })
   create(@Body() createRoleDto: CreateRoleDto) {
@@ -44,12 +51,14 @@ export class RoleController {
     return this.roleService.findAll(paginationQuery);
   }
 
+  @CheckPolicies(new ReadRolePolicyHandler())
   @Get(':id')
   @ApiOperation({ summary: '根据id查找', description: '根据id查找角色' })
   findOne(@Param('id') id: number) {
     return this.roleService.findOne(id);
   }
 
+  @CheckPolicies(new UpdateRolePolicyHandler())
   @Patch(':id')
   @ApiOperation({ summary: '更新角色' })
   @ApiBody({ type: UpdateRoleDto, description: '参数可选' }) //请求体
@@ -63,6 +72,7 @@ export class RoleController {
     return this.roleService.update(id, updateRoleDto);
   }
 
+  @CheckPolicies(new DeleteRolePolicyHandler())
   @Delete(':id')
   @ApiOperation({ summary: '删除角色' })
   remove(@Param('id') id: number) {
